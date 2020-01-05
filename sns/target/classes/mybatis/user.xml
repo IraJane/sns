@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="user.model.User">
+	
+	<insert id="signup">
+		insert into m_user
+		values(user_seq.nextval, #{m_email}, #{m_name}, #{m_password}, sysdate, 0, 0, 0, #{m_image} ,'default.jpg')
+	</insert>
+	
+	<select id="loginThis" resultType="MyUser">
+	select * from m_user
+	where m_email = #{m_email} and m_password = #{m_password}
+	</select>
+	
+	<update id="updateName">
+	update m_user
+	set m_name = #{m_name}
+	where m_num = #{m_num}
+	</update>
+	
+	<update id="updateEmail">
+	update m_user
+	set m_email = #{m_email}
+	where m_num = #{m_num}
+	</update>
+	
+	<select id="getMaxNum" resultType="int">
+	select max(m_num) from m_user
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	</mapper>

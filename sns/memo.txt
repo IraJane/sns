@@ -1,0 +1,58 @@
+drop sequence user_seq;
+create sequence user_seq
+start with 0 
+increment by 1
+nocache
+minvalue 0;
+
+drop table m_user;
+create table m_user(
+M_NUM number primary key,
+M_EMAIL varchar2(20),
+M_NAME varchar2(50),
+M_PASSWORD varchar2(20),
+M_SIGNDATE varchar2(20),
+M_OUT varchar2(20),
+M_BLACK varchar2(20),
+M_BLOCK varchar2(20)
+);
+
+
+create sequence t_seq
+start with 0 
+increment by 1
+nocache
+minvalue 0;
+
+create table t_text(
+t_num number primary key,
+m_num references m_user(m_num),
+t_content varchar2(2000),
+t_todate varchar2(20),
+c_num references c_category(c_num),
+t_visible varchar2(20),
+t_like varchar2(20)
+);
+
+create sequence th_seq
+start with 0 
+increment by 1
+nocache
+minvalue 0;
+
+create table th_like(
+th_num number primary key,
+t_num number references t_text(t_num),
+m_num varchar2(20)
+);
+
+create sequence c_seq
+start with 0 
+increment by 1
+nocache
+minvalue 0;
+
+create table c_category(
+c_num number primary key,
+c_category varchar2(100)
+);
