@@ -6,11 +6,15 @@
    		<typeAliases>
    			<typeAlias type="user.model.User" alias="MyUser"/>
    			<typeAlias type="write.model.Write" alias="MyWrite"/>
+   			<typeAlias type="write.model.Categ" alias="MyCateg"/>
+   			<typeAlias type="write.model.Like" alias="MyLike"/>
    		</typeAliases>
    		
    		<mappers>
    			<mapper resource="mybatis/user.xml"/>
    			<mapper resource="mybatis/write.xml"/>
+   			<mapper resource="mybatis/categ.xml"/>
+   			<mapper resource="mybatis/like.xml"/>
    			
    			
    		

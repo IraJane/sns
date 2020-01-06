@@ -31,7 +31,16 @@
 	</select>
 	
 	
+	<select id="selectUser" resultType="MyUser">
+		select * from m_user
+		where m_num = #{m_num}
+	</select>
 	
+	<select id="searchUser" resultType="MyUser">
+		select * from m_user
+		where m_name like  '%' || #{keyword} || '%'
+		order by m_name asc
+	</select>
 	
 	
 	

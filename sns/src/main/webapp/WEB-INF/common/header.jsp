@@ -1,5 +1,17 @@
+<%@page import="user.model.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%
+	User login = (User) session.getAttribute("userLoginfo");
+	String url = request.getContextPath();
+	if(login == null){
+		response.sendRedirect(url + "/main.er");
+
+
+	}
+%>
+
 
 
 <style>
@@ -37,11 +49,21 @@ text-decoration:none;
 	float:right;
     margin: 10px 15% 0 0;
 }
+
+.smallimg{
+width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin: -8px 0;
+    
+}
 </style>
 
 <div class="header-box">
 	<div class="header-left">
-		<a href="login.er"><i class="headcolor fas fa-chess-queen"></i></a>&nbsp;<input type="text" placeholder="검색">
+	<form action="search.er">
+		<a href="login.er"><i class="headcolor fas fa-chess-queen"></i></a>&nbsp;<input name="keyword" type="text" placeholder="검색">
+	</form>
 	
 	</div>
 	<div class="header-right">
@@ -51,7 +73,7 @@ text-decoration:none;
 		<a href="#" class="headcolor"><i class="fas fa-user-friends"></i></a>
 		<a href="#" class="headcolor"><i class="fab fa-facebook-messenger"></i></a>
 		<a href="#" class="headcolor"><i class="fas fa-bell"></i></a>
-		<a href="#" class="headcolor"><i class="fas fa-sign-out-alt"></i></a>
+		<a href="logout.er" class="headcolor"><i class="fas fa-sign-out-alt"></i></a>
 	</div>
 
 

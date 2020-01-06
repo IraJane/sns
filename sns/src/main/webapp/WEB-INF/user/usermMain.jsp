@@ -3,8 +3,19 @@
     <%@include file="./../common/common.jsp"%>
 
 <script>
+var count = 0
 $(function(){
-	var count = 0
+	$('.rightbar').click(function(){
+		$('.hash-hashtag').each(function(){
+			console.log($(this).val().length)
+			if($(this).val().length==2){
+		    	$(this).remove();
+		    	return;
+	    	}
+		});
+		
+	});
+	
     $(".hashtag").click(function(){
     	
     	if($('.hash-hashtag').length==0){
@@ -13,27 +24,54 @@ $(function(){
     	
     	if(count ==0){
     		
-	    	$('.hashtag').append("<input class='hash-hashtag' type='text' value='#'>");
-	    	count = 1;
+	    	$('.hashtag').append("<input name='categ' class='hash-hashtag goodthing' type='text' value='#'>");
+	    	count = count + 1
+	    	return;
     	}
-    	
-    	$(".hash-hashtag").keypress(function(e) {
-    		if (e.keyCode === 13) { 
-    			$('.hashtag').append("<input class='hash-hashtag' type='text' value='#'>"); 
-    		}
-    	});
-
-    	
-	    
-	    
-    	
     	$('.hash-hashtag').each(function(){
-    		alert($(this).val());
-	    	
-	    	
-	    	
-    	})
+			console.log($(this).val().length)
+			if($(this).val().length==2){
+		    	$(this).remove();
+		    	return;
+	    	}
+		});
+	
     });
+    
+    
+    $('.hashtag').keydown(function(e) {
+		console.log(e.keyCode)
+		
+		if (e.keyCode === 32) {
+			
+			$('.hash-hashtag').each(function(){
+				console.log($(this).val().length)
+				if($(this).val().length==2){
+			    	$(this).remove();
+			    	return;
+		    	}
+			});
+			
+			
+			
+			
+			$('.hashtag').children().removeClass('goodthing');
+			$('.hashtag').children().addClass('hasher');
+			$('.hashtag').append("<input name='categ' class='hash-hashtag goodthing' type='text' >"); 
+			
+			$(this).children().next().focus();
+			$('.goodthing').val('#');
+			
+			
+			return;
+		}
+		
+		
+	});
+    
+    
+    
+    
 });
 </script>
 
@@ -42,6 +80,14 @@ body{
     background: #d4d4d4b8;
     margin:0;
     
+}
+.hasher{
+	border:1px solid green;
+	color:red;
+	
+}
+.hash-hashtag:focus{
+	border:2px solid blue;
 }
 
 .big-container{
@@ -154,7 +200,7 @@ ${login.m_image}
 <table class="left-menutable">
 	<tr>
 		<td>
-			<a href="#"><img class="smallimg" src="<%=request.getContextPath() %>/resources/${login.m_num}/${login.m_image}">&nbsp;&nbsp;<span>${login.m_name}</span></a>		
+			<a href="search.er?m_num=${login.m_num }"><img class="smallimg" src="<%=request.getContextPath() %>/resources/${login.m_num}/${login.m_image}">&nbsp;&nbsp;<span>${login.m_name}</span></a>		
 		</td>
 	</tr>
 	<tr>
@@ -184,15 +230,16 @@ ${login.m_image}
 	</tr>
 	<tr>
 		<td style="background:white; padding:15px;">
-			<form action="insertText.ing" style="margin:0;" method="post">
+			<form action="insertText.ing" style="margin:0;" method="post" enctype="multipart/form-data" >
 				<input type="hidden" name="m_num" value="${login.m_num }">
 				<div style="width: 90%;">
 				<label for="textarea">
 					<img class="left-smallimg" src="<%=request.getContextPath() %>/resources/${login.m_num}/${login.m_image}">
 				
 				</label>
-				<textarea name="textarea" class="left-textarea" placeholder="${login.m_name}님 무슨 생각을 하고 계신가요?" name="t_content"></textarea></div>
-				<div class="hashtag" name="category">#</div>	
+				<textarea class="left-textarea" placeholder="${login.m_name}님 무슨 생각을 하고 계신가요?" name="t_content"></textarea></div>
+				<div class="hashtag">#</div>	
+				<div><input type="file" name="file" multiple="multiple"></div>
 				<div><input class="right-inputbtn" type="submit" value="작성"></div>	
 			</form>
 		</td>	

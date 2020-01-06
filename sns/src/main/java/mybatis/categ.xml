@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "write.model.Categ">
+
+	<select id="getNum" resultType="MyCateg">
+		select * from c_category
+		where c_category like #{cc}
+	</select>
+	
+	<insert id="insertCateg">
+		insert into c_category
+		values(c_seq.nextval, #{cc})
+	</insert>
+	
+	<select id="getCNum" resultType="int">
+		select max(c_num) from c_category
+	</select>
+
+
+
+
+
+</mapper>

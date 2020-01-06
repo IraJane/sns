@@ -2,6 +2,8 @@ package user.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import user.model.User;
 import user.model.UserDao;
+import write.model.Write;
+import write.model.WriteDao;
 
 @Controller
 public class UserController {
@@ -24,6 +28,9 @@ public class UserController {
 
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	WriteDao writeDao;
 	
 	@Autowired
 	ServletContext sc;
@@ -152,6 +159,51 @@ public class UserController {
 		
 		return "redirect:info.er";
 	}
+	
+	@RequestMapping(value = "search.er")
+	public String userpage(@RequestParam(value="m_num",required=false) String m_num,
+			@RequestParam(value="keyword",required=false) String keyword,HttpSession session,
+			Model model) {
+		List<Write> keylist = new ArrayList<Write>();
+		List<User> keymember = new ArrayList<User>();
+		System.out.println(m_num +"and"+keyword);
+		
+		
+		if(m_num != null) {
+			List<Write> list = new ArrayList<Write>();
+			User login = new User();
+			
+			list = writeDao.selectUserPost(m_num);
+			login = userDao.selectUser(m_num);
+			
+			model.addAttribute("login", login);
+			model.addAttribute("list", list);
+			return "userpage";
+		}
+		
+		
+		System.out.println("keyword:"+keyword);
+		keymember = userDao.searchUser(keyword);
+		keylist = writeDao.searchUserPost(keyword);
+		
+		
+		User login = (User) session.getAttribute("userLoginfo");
+		model.addAttribute("login",login);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("keymember", keymember);
+		model.addAttribute("keylist", keylist);
+		return "searchPage";
+	}
+	
+	@RequestMapping("logout.er")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		
+
+		return "redirect:/main.er";
+	}
+	
+	
 	
 	
 	

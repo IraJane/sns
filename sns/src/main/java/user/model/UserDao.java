@@ -1,8 +1,12 @@
 package user.model;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import write.model.Write;
 
 @Component
 public class UserDao {
@@ -45,6 +49,26 @@ public class UserDao {
 		int cnt = sst.selectOne(namespace + ".getMaxNum");
 		return cnt;
 	}
+
+
+	public User selectUser(String m_num) {
+		// TODO Auto-generated method stub
+		User member = sst.selectOne(namespace+".selectUser",m_num);
+		return member;
+	}
+
+
+	public List<User> searchUser(String keyword) {
+		// TODO Auto-generated method stub
+		List<User> uu = sst.selectList(namespace+".searchUser",keyword);
+		return uu;
+	}
+
+
+	
+
+
+	
 	
 	
 }

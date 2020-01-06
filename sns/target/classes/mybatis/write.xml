@@ -3,4 +3,26 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="write.model.Write">
 
+	<insert id="insertText">
+		insert into t_write
+		values(t_seq.nextval, #{m_num},#{t_content},#{t_todate},#{c_num},0,0,#{t_image})
+	</insert>
+	
+	<select id="selectPost" resultType="MyWrite">
+		select * from t_write
+		where m_num = #{m_num}
+		order by t_todate desc
+	</select>
+	
+	<select id="searchPost" resultType="MyWrite">
+		select * from t_write
+		where t_content like '%' || #{keyword} || '%'
+		order by t_todate desc
+	</select>
+	
+	<select id="maxnum" resultType="int">
+		select max(t_num) from t_write
+	</select>
+	
+
 </mapper>
