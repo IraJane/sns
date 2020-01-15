@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@include file="./../common/common.jsp"%>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
 <script>
 function heartThis(a,b){
 	
@@ -14,10 +15,12 @@ function heartThis(a,b){
 		success : function(data) {
 			//alert("완료!");
 			console.log("완료");
-			$('.heartemoji'+a).children().remove();
-			$('.heartemoji'+a).prepend('<i class="fas fa-heart"></i>');
+			//$('.heartemoji'+a).children().remove();
+			//$('.heartemoji'+a).prepend('<i class="fas fa-heart"></i>');
+			/* $('.thereisheart'+a).css({display:'inline-block'});
+			$('.therenoisheart'+a).css({display:'none'}); */
 			//$('.heartemoji').addClass("fas");
-			//window.location.reload();
+			window.location.reload();
 			//self.close();
 		},
 		error : function(data) {
@@ -33,7 +36,93 @@ function heartThis(a,b){
 
 
 
+
+
+function dontheartThis(a,b){
+	
+	var eData = {"t_num":a,"m_num":b};
+	
+	$.ajax({
+		url : "dontheartThis.ing",
+		type : 'POST',
+		data : eData,
+		success : function(data) {
+			//alert("완료!");
+			console.log("삭제로 오기 완료");
+			//$('.heartemoji'+a).children().remove();
+			//$('.heartemoji'+a).prepend('<i class="far fa-heart"></i>');
+			//$('.heartemoji'+a).prepend('<i class="far fa-heart"></i>');
+			/* $('.thereisheart'+a).css({display:'none'});
+			$('.therenoisheart'+a).css({display:'inline-block'}); */
+			//$('.heartemoji').addClass("fas");
+			window.location.reload();
+			//self.close();
+		},
+		error : function(data) {
+			alert("수정되지 않음");
+			//self.close();
+		}
+
+	});
+	
+	
+	
+}
+
+
+function addfriend(a){
+	console.log(a);
+	var eData = {"f_theirNum":a};
+	
+	$.ajax({
+		url : "addfriend.er",
+		type : 'POST',
+		data : eData,
+		success: function(data){
+			console.log("add")
+			$('.insidetext').children().remove();
+			$('.insidetext').append('<a onclick="deletefriend(${login.m_num })"><span class="addfriend">언팔로우</span></a>');
+			
+		},
+		error : function(data) {
+			alert("no friend");
+			//self.close();
+		}
+		
+	});
+}
+
+function deletefriend(a){
+	console.log('delete');
+	var eData = {"f_theirNum":a};
+	
+	$.ajax({
+		url : "deletefriend.er",
+		type : 'POST',
+		data : eData,
+		success: function(data){
+			console.log("removeeee")
+			$('.insidetext').children().remove();
+			$('.insidetext').append('<a onclick="addfriend(${login.m_num })"><span class="addfriend">친구추가</span></a>');
+			
+		},
+		error : function(data) {
+			alert("no friend");
+			//self.close();
+		}
+		
+	});
+	
+	
+	
+}
+
+
+
+
 </script>  
+
+
     
 <style>
 body{
@@ -74,19 +163,21 @@ width: 150px;
     margin: -100px 180px 0;
 }
 .background-changebtns{
-	width: 62%;
-    margin: auto;
-    height: 49px;
-border-left: 1px solid #d0d0d0;
-border-right: 1px solid #d0d0d0;
+    width: 60%;
+    margin: 10px auto;
+    height: 30px;
+    border-left: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
 }
 .background-changebtns table{
 	    width: 100%;
     text-align: center;
 }
 .background-changebtns td{
-	    font-size: 20px;
-    line-height: 40px;
+    font-size: 15px;
+    color: #4c6dca;
+    font-weight: bold;
+    width: 30%;
 }
 
 
@@ -143,6 +234,14 @@ border-right: 1px solid #d0d0d0;
     border-radius: 50%;
     margin: -13px 0;
 }
+
+
+.post-images{
+	width: 95%;
+    margin: 10px;
+    height: auto;
+}
+
 </style>    
     
     
@@ -153,20 +252,38 @@ border-right: 1px solid #d0d0d0;
     
 <%@include file="./../common/header.jsp"%>
 
-<input type="hidden" name="mnum" class="mnum" value="${login.m_num }">
+<input type="hidden" name="mnum" class="mnum" value="${thisUser.m_num }">
 <div class="total-container" >
 <div class="head-wrapper">
 	<div class="background-place">
 		<img class="backgroundimg" src="<%=request.getContextPath() %>/resources/img/backgroundimg.jpg">
 	</div>
 	<div class="background-name">
-		<img class="background-img" src="<%=request.getContextPath() %>/resources/${login.m_num}/${login.m_image}"><p class="background-span">${login.m_name }</p>
+		<img class="background-img" src="<%=request.getContextPath() %>/resources/${thisUser.m_num}/${thisUser.m_image}">
+		<p class="background-span">${thisUser.m_name }</p>
+		
+		
+		
 		<div class="background-changebtns">
 			<table>
 				<tr>
-					<td>친구</td>
-					<td style="border-left: 1px solid #d0d0d0;border-right: 1px solid #d0d0d0;">사진</td>
-					<td>좋아요</td> <!-- heartThis.ing -->
+					<td  class="insidetext">
+						
+						<c:if test="${followlist == 5  }">
+								나의 계정
+						</c:if>
+						
+						<c:if test="${followlist == 0}">
+							<a onclick="addfriend(${login.m_num })"><span class="addfriend">친구추가</span></a>
+						</c:if>
+						<c:if test="${followlist != 0 && followlist != 5 }">
+							<a onclick="deletefriend(${login.m_num })"><span class="addfriend">언팔로우</span></a>
+						</c:if>
+						 
+					</td>
+					<td style="border-left: 1px solid #d0d0d0;border-right: 1px solid #d0d0d0;"><a href="#">메시지 보내기</a></td>
+					<td style="    border-right: 1px solid #e2e2e2;"><a href="#">사진</a></td> <!-- heartThis.ing -->
+					<td>...</td> <!-- heartThis.ing -->
 				</tr>
 			</table>
 		</div>
@@ -181,19 +298,20 @@ border-right: 1px solid #d0d0d0;
 	
 	
 	
-	    
+	   
 	<c:forEach items="${list }" var="text">
 	<input type="hidden" class="tnum" value="${text.t_num }">
 	<table class="story-table">
 		<tr>
 			<td style="width: 8%;">
-				<img class="story-nickimg" src="<%=request.getContextPath() %>/resources/${login.m_num}/${login.m_image}">
+				<img class="story-nickimg" src="<%=request.getContextPath() %>/resources/${thisUser.m_num}/${thisUser.m_image}">
 				
 			</td>
 			<td>
-				<a class="story-nick">${login.m_name }</a>
+				<a class="story-nick">${thisUser.m_name }</a>
 				<div>${text.t_todate }</div>
 			</td>
+			
 		</tr>
 		
 		<tr>
@@ -204,11 +322,57 @@ border-right: 1px solid #d0d0d0;
 		</tr>
 		<tr>
 			
+			<td colspan=2 style="    text-align: center;">
+			
+				<c:forEach items="${text.t_image }" var="images" >
+					<img class="post-images" src="<%=request.getContextPath() %>/resources/${thisUser.m_num}/posts/${text.t_num}/${images}">
+				</c:forEach>
+			</td>
+		</tr>
+		<tr>
+			
 			<td  class="likebox" colspan=2>
-				<table>
+				<table class="likeboxtable">
 					<tr>
 						<td>
-							<a onclick="heartThis(${text.t_num },${login.m_num })"><span class="heartemoji${text.t_num }"><i class="far fa-heart"></i> 좋아요</span></a>
+							
+							
+							
+							<c:set var="testnum" value="${text.t_num }"></c:set>
+							
+							
+							
+								<c:if test="${fn:contains(mylikes,testnum) }">
+									<%-- <c:if test="${not loop_flag }"> --%>
+									
+									<a class="thereisheart${text.t_num }" onclick="dontheartThis(${text.t_num },${thisUser.m_num })" ><span class=" heartemoji${text.t_num }"><i class="fas fa-heart"></i> 좋아요</span></a>
+									<c:set var="loop_flag" value="true" />
+									
+								<%-- 	</c:if> --%>
+								</c:if>
+								
+								<%-- <c:otherwise> --%>
+									<c:if test="${!fn:contains(mylikes,testnum) }">
+								
+									<c:set var="loop_flag" value="true" />
+									<a class="thereisnoheart${text.t_num }" onclick="heartThis(${text.t_num },${thisUser.m_num })" ><span class=" heartemoji${text.t_num }"><i class="far fa-heart"></i> 좋아요</span></a>
+									
+									</c:if> 
+								<%-- </c:otherwise> --%>
+									
+							
+							<c:forEach items="${mylikes }" var="likes">
+								<c:if test="${!fn:contains(likes, testnum) && loop_flag == false }">
+									
+									<c:set var="loop_flag" value="true" />
+									<a class="thereisnoheart${text.t_num }" onclick="heartThis(${text.t_num },${thisUser.m_num })" ><span class=" heartemoji${text.t_num }"><i class="far fa-heart"></i> 좋아요</span></a>
+								</c:if>
+							
+							</c:forEach>	
+							
+							
+								
+							
 							
 							
 						</td>   <!-- <i class="fas fa-heart"></i>  -->
@@ -221,7 +385,7 @@ border-right: 1px solid #d0d0d0;
 		<tr>
 			
 			<td colspan=2 style="height: 35px;text-align: center;">
-				<img class="comment-smallimg" src="<%=request.getContextPath() %>/resources/${login.m_num}/${login.m_image}">
+				<img class="comment-smallimg" src="<%=request.getContextPath() %>/resources/${thisUser.m_num}/${thisUser.m_image}">
 				<input class="commentbox" type="text" placeholder="댓글을 입력해주세요">
 			</td>
 		</tr>
@@ -232,7 +396,28 @@ border-right: 1px solid #d0d0d0;
 	
 	
 	
+	
+<div class="image-wrapper">
+imgimg
+
+
+
+
 </div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</div>
+
+
 
 
 

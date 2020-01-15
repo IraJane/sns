@@ -1,5 +1,7 @@
 package write.model;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,5 +31,20 @@ public class LikeDao {
 		qq.setT_num(t_num);
 		int cnt = sst.selectOne(namespace+".checkthis",qq);
 		return cnt;
+	}
+
+	public List<Like> selectLikelists(int m_num) {
+		// TODO Auto-generated method stub
+		List<Like> likeposts = sst.selectList(namespace + ".selectLikeLists", m_num);
+		return likeposts;
+	}
+
+	public void dontheartThis(String t_num, String m_num) {
+		// TODO Auto-generated method stub
+		Like qq = new Like();
+		qq.setM_num(m_num);
+		qq.setT_num(t_num);
+		sst.delete(namespace+".dontheartthis",qq);
+		
 	}
 }

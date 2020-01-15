@@ -58,3 +58,32 @@ create table c_category(
 c_num number primary key,
 c_category varchar2(100)
 );
+
+
+create sequence f_seq
+start with 0 
+increment by 1
+nocache
+minvalue 0;
+
+
+create table f_follow(
+f_num number primary key,
+m_num varchar2(20),
+f_theirNum varchar2(20)
+);
+
+
+create sequence s_seq
+start with 0 
+increment by 1
+nocache
+minvalue 0;
+
+create table s_message(
+s_num number primary key,
+s_fromnum varchar2(20),
+s_msg varchar2(2000),
+s_date varchar2(100),
+s_tonum varchar2(20)
+);

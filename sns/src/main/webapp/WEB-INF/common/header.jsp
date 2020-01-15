@@ -69,10 +69,8 @@ width: 25px;
 	<div class="header-right">
 		<a href="info.er"><img class="smallimg" src="<%=request.getContextPath() %>/resources/${login.m_num}/${login.m_image}"><span class="headcolor">${login.m_name}</span></a>		
 		<a href="login.er" class="headcolor">홈</a>
-		<a href="#" class="headcolor">친구찾기</a>
 		<a href="#" class="headcolor"><i class="fas fa-user-friends"></i></a>
 		<a href="#" class="headcolor"><i class="fab fa-facebook-messenger"></i></a>
-		<a href="#" class="headcolor"><i class="fas fa-bell"></i></a>
 		<a href="logout.er" class="headcolor"><i class="fas fa-sign-out-alt"></i></a>
 	</div>
 

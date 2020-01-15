@@ -65,6 +65,16 @@ public class UserDao {
 	}
 
 
+	public List<User> myfriends(int m_num) {
+		// TODO Auto-generated method stub
+		List<User> aa = sst.selectList(namespace + ".myfriends", m_num);
+		return aa;
+	}
+
+
+	
+
+
 	
 
 

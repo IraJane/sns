@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "message.model.Message">
+	<select id="getChats" resultType="MyMessage">
+		select * from s_message
+		where s_fromnum in (select f_theirnum
+                from f_follow
+                where f_theirnum in ( select f_theirnum from f_follow
+                                    where m_num = #{m_num} )
+                or f_theirnum in ( select m_num from f_follow
+                                    where f_theirnum = #{m_num} ))
+    	or s_tonum in (select f_theirnum
+                from f_follow
+                where f_theirnum in ( select f_theirnum from f_follow
+                                    where m_num = #{m_num} )
+                or f_theirnum in ( select m_num from f_follow
+                                    where f_theirnum = #{m_num} ))
+                order by s_date asc
+	</select>
+	
+	<insert id="insertchat">
+		insert into s_message
+		values(s_seq.nextval, #{s_fromnum}, #{s_msg}, #{s_date}, #{s_tonum})
+	</insert>
+
+
+
+
+</mapper>

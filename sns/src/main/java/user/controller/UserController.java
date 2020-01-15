@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import user.model.Follow;
+import user.model.FollowDao;
 import user.model.User;
 import user.model.UserDao;
+import write.model.Like;
+import write.model.LikeDao;
 import write.model.Write;
 import write.model.WriteDao;
 
@@ -31,6 +35,12 @@ public class UserController {
 	
 	@Autowired
 	WriteDao writeDao;
+	
+	@Autowired
+	LikeDao likeDao;
+	
+	@Autowired
+	FollowDao followDao;
 	
 	@Autowired
 	ServletContext sc;
@@ -109,6 +119,12 @@ public class UserController {
 				}
 				
 				
+				//스토리 
+				
+				
+				
+				
+				
 				session.setAttribute("userLoginfo", login);
 				model.addAttribute("login",login);
 				return "usermMain";
@@ -176,7 +192,30 @@ public class UserController {
 			list = writeDao.selectUserPost(m_num);
 			login = userDao.selectUser(m_num);
 			
-			model.addAttribute("login", login);
+			User user = (User)session.getAttribute("userLoginfo");
+			List<Like> mylikes = likeDao.selectLikelists(user.getM_num());
+			System.out.println(user.getM_num());
+			System.out.println(mylikes);
+			int mnum = Integer.parseInt(m_num);
+			int followlist = -1;
+			
+			if(mnum == user.getM_num()) {
+				followlist = 5;
+				
+			} else {
+				
+				followlist = followDao.getMyFollows(m_num,user.getM_num());
+				
+			}
+			
+			System.out.println("followlist:"+followlist);
+			System.out.println("mnum:"+mnum);
+			System.out.println("user num:"+user.getM_num());
+			
+			model.addAttribute("followlist", followlist);
+			model.addAttribute("mylikes", mylikes);
+			model.addAttribute("thisUser", login);
+			model.addAttribute("login", user);
 			model.addAttribute("list", list);
 			return "userpage";
 		}
@@ -201,6 +240,37 @@ public class UserController {
 		
 
 		return "redirect:/main.er";
+	}
+	
+	
+	@RequestMapping("addfriend.er")
+	public String addfriend(@RequestParam("f_theirNum") String f_theirNum,HttpSession session) {
+		Follow follow = new Follow();
+		
+		User login = (User) session.getAttribute("userLoginfo");
+		String mnum = Integer.toString(login.getM_num());
+		
+		
+		
+		followDao.addFriend(mnum, f_theirNum);
+		
+		return "redirect:/search.er?m_num="+f_theirNum;
+		
+	}
+	
+	@RequestMapping("deletefriend.er")
+	public String deletefriend(@RequestParam("f_theirNum") String f_theirNum,HttpSession session) {
+		Follow follow = new Follow();
+		
+		User login = (User) session.getAttribute("userLoginfo");
+		String nn = Integer.toString(login.getM_num());
+		
+		follow.setM_num(nn);  // 나의 번호 
+		follow.setF_theirNum(f_theirNum); // 친구 번호
+		
+		followDao.deleteFriend(follow);
+		
+		return "redirect:/search.er?m_num="+f_theirNum;
 	}
 	
 	

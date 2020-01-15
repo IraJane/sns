@@ -44,7 +44,12 @@
 	
 	
 	
-	
+	<select id="myfriends" resultType="MyUser">
+		select * from m_user
+		where m_num in (select f_theirnum 
+                from f_follow
+                where m_num = #{m_num})
+	</select>
 	
 	
 	

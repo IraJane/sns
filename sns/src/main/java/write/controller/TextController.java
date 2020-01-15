@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -113,7 +114,7 @@ public class TextController {
 	            System.out.println("originFileName : " + originFileName);
 	            System.out.println("fileSize : " + fileSize);
 
-	            String safeFile = uploadPath + System.currentTimeMillis() + originFileName;
+	            String safeFile = uploadPath + originFileName;
 	            try {
 	                mf.transferTo(new File(safeFile));
 	            } catch (IllegalStateException e) {
@@ -142,8 +143,12 @@ public class TextController {
 	
 	@RequestMapping("/heartThis.ing")
 	public String heart(@RequestParam("t_num") String t_num,
-			@RequestParam("m_num") String m_num) {
+			 Model model, HttpSession session) {
 		System.out.println("heart:"+ t_num);
+		
+		User login = (User) session.getAttribute("userLoginfo");
+		
+		String m_num = Integer.toString(login.getM_num());
 		
 		int cnt = likeDao.checkThis(t_num,m_num);
 		if(cnt == 0) {
@@ -152,7 +157,27 @@ public class TextController {
 		}
 		
 		
+		return "redirect:/search.er?m_num="+m_num;
+		
+	}
 	
+	
+	@RequestMapping("/dontheartThis.ing")
+	public String dontheart(@RequestParam("t_num") String t_num,
+			HttpSession session) {
+		System.out.println("heart:"+ t_num);
+		
+		User login = (User) session.getAttribute("userLoginfo");
+		
+		String m_num = Integer.toString(login.getM_num());
+		
+		
+			likeDao.dontheartThis(t_num,m_num);
+			
+		
+		
+		
+		
 		return "redirect:/search.er?m_num="+m_num;
 		
 	}

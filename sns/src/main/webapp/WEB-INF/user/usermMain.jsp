@@ -191,9 +191,7 @@ width: 25px;
 </style>
 
     <%@include file="./../common/header.jsp"%>
-usermMain
-${login}
-${login.m_image}
+
 <br>
 <div class="big-container">
 <div class="leftbar">
@@ -210,7 +208,7 @@ ${login.m_image}
 	</tr>
 	<tr>
 		<td>
-			<a><i class="fab fa-facebook-messenger"></i>&nbsp;메신저</a>	
+			<a href="tomessenger.mess"><i class="fab fa-facebook-messenger"></i>&nbsp;메신저</a>	
 		</td>
 	</tr>
 	

@@ -12,6 +12,17 @@
 		select count(*) from th_like
 		where t_num=#{t_num} and m_num =#{m_num}
 	</select>
+	
+	<select id="selectLikeLists" resultType="MyLike">
+		select * from th_like
+		where m_num = #{m_num}
+		order by t_num desc
+	</select>
+	
+	<delete id="dontheartthis">
+		delete th_like
+		where t_num=#{t_num} and m_num =#{m_num} 
+	</delete>
 
 
 </mapper>
