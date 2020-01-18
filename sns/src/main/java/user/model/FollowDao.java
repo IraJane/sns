@@ -43,5 +43,11 @@ public class FollowDao {
 		return ff;
 	}
 
+	public List<Follow> getAllFollows(int m_num) {
+		// TODO Auto-generated method stub
+		List<Follow> list = sst.selectList(namespace+".getAllFollows", m_num);
+		return list;
+	}
+
 	
 }

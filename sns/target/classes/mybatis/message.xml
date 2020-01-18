@@ -23,6 +23,14 @@
 		insert into s_message
 		values(s_seq.nextval, #{s_fromnum}, #{s_msg}, #{s_date}, #{s_tonum})
 	</insert>
+	
+	<select id="getChatlists" resultType="MyMessage">
+		select * from s_message
+		where (s_fromnum = #{s_fromnum} and s_tonum = #{s_tonum} )
+		or (s_fromnum = #{s_tonum} and s_tonum = #{s_fromnum} )
+		order by s_date asc
+	
+	</select>
 
 
 

@@ -14,10 +14,61 @@ $(function(){
 </script>
 <script>
 
-function startChat(num){
+function startChat(mynum, yournum){
 	
-	// ajax로 해당 번호 보내서 이 번호와 대화한 내역 가지고 오기 
-	// 이 페이지는 다 ajax로 연결을 시키는 게 좋을거 같아 
+	var eData = {"s_fromnum":mynum, "s_tonum": yournum};
+	
+	$.ajax({
+		url:'getMessage.mess',
+		type : 'POST',
+		data : eData,
+		success: function(data){
+			console.log('dhk');
+			console.log(data.length)
+			
+			if(data.length > 0){
+				var msgg = '';
+				$('.tootoo').empty();
+				for(var i = 0; i<data.length; i++){
+					console.log(i);
+					msgg = msgg + '<tr><td>'+data[i].s_msg +'</td><td>'+data[i].s_date +'</td></tr>';
+					
+				}
+				$('.insertmsg').addClass('hide');
+				$('.insertmessage'+yournum).addClass('show');
+				$('.tootoo').append(msgg);
+				var getinsert = $('.insertmessage'+yournum);
+				if(getinsert.length == 0){
+					$('.tootoo').append('<div><input type="text" class="insertmsg insertmessage'+yournum+' tootoo tootoo'+yournum+'" onkeypress="if (event.keyCode==13){insertmsg('+yournum+');}" placeholder="메세지를 입력하세요'+yournum+'"></div>')
+					
+				}
+				
+			}
+			if(data.length == 0){
+				$('.insertmsg').addClass('hide');
+				$('.insertmessage'+yournum).addClass('show');
+				$('.tootoo').empty();
+				var getinsert = $('.insertmessage'+yournum);
+				if(getinsert.length == 0){
+					$('.tootoo').append('<div><input type="text" class="insertmsg insertmessage'+yournum+' tootoo tootoo'+yournum+'" onkeypress="if (event.keyCode==13){insertmsg('+yournum+');}" placeholder="메세지를 입력하세요'+yournum+'"></div>')
+					
+				}	
+			}
+			
+			
+			
+		},
+		error : function(data) {
+			console.log('error');
+			//self.close();
+		}
+		
+		
+		
+		
+		
+		
+	}) 
 	
 	
 }
@@ -39,34 +90,23 @@ function insertmsg(your){
 			data : eData,
 			success: function(data){
 				console.log(data);
-				var str = '<TR>';
-				var flag = false;
-				$.each(data, function(i) {
-					/* $('.tootoo'+mine).children().remove();
-					$('.tootoo'+mine).append("<tr><td>"+
-							val.s_msg + "</td></tr>"); */
-					 /* $(".tootoo").text("<tr><td>dd</td></tr>").find('.tootoo') */
-					
-						str += '<TD>' + data[i].s_msg + '</TD>';
-		                str += '</TR>';
-		                str += '<TD>' + data[i].s_fromnum + '</TD>';
-		                str += '</TR>';
-		            	flag = true;
-						
-					
-					console.log('str:'+str);
-					
-					
-				});
-				if(bean == false){
-					$(".tootoo"+your).children().remove();
-					$(".tootoo"+your).append(str);
-					console.log('ddd');
-					str ='';
-					bean = true;
+				
+				var msgg = '';
+				$('.tootoo').empty();
+				for(var i = 0; i<data.length; i++){
+					console.log(i);
+					msgg = msgg + '<tr><td>'+data[i].s_msg +'</td><td>'+data[i].s_date +'</td></tr>';
 					
 				}
-				//$('.tootoo');
+				$('.insertmsg').addClass('hide');
+				$('.insertmessage'+your).addClass('show');
+				$('.tootoo').append(msgg);
+				var getinsert = $('.insertmessage'+your);
+				if(getinsert.length == 0){
+					$('.tootoo').append('<div><input type="text" class="insertmsg insertmessage'+your+' tootoo tootoo'+your+'" onkeypress="if (event.keyCode==13){insertmsg('+your+');}" placeholder="메세지를 입력하세요'+your+'"></div>')
+					
+				}
+				
 			},
 			error : function(data) {
 				console.log(data);
@@ -130,6 +170,16 @@ display:none;
 display:inline-block;
 }
 
+.tootoo{
+/* 	    border: 1px solid red; */
+    width: 65%;
+    margin: 10px;
+    float: right;
+    height: 30px;
+    display: inline-block;
+}
+}
+
 </style>
 
 <div id="context"></div>
@@ -154,11 +204,11 @@ display:inline-block;
 	
 </tr>
 </table>
-<table style="width:100%;">
-<tr>
-	<td style="    width: 30%;">
+
+<div style="width:30%;display: inline-block;">
+
 		<c:forEach items="${friends }" var="follow">
-			<table class="followlist"  onclick="startChat(${follow.m_num})">
+			<table class="followlist"  onclick="startChat(${login.m_num},${follow.m_num})">
 				<tr>
 					<td>
 						
@@ -173,39 +223,44 @@ display:inline-block;
 			</table>
 			
 		</c:forEach>
-	</td>
-	<td>
-		<c:forEach items="${friends }" var="follow">
+	
+	<%-- <td  class="tootoo tootoo${follow.m_num}" > --%>
+		<%-- <c:forEach items="${friends }" var="follow">
 		<c:set var="loop_flag" value="false" />
 		<c:forEach items="${mlist }" var="message">
-		<table  class="tootoo tootoo${follow.m_num}" >
-		<c:if test="${follow.m_num == message.s_tonum }">
-				<tr>
+		<table  > --%>
+		
+				<%-- <tr class="tootoo tootoo${follow.m_num}" >
 					<td>
-						${follow.m_num}
-						${message.s_msg }
+						친구를 눌러 채팅을 시작하세요 
 					</td>
-				</tr>
+				</tr> --%>
 				
 		
-		</c:if>
+		
 		<%-- 	 <input type="text" class="insertmessage-num" value="${follow.m_num}"> --%>
 	
-		</table>
+	<%-- 	</table>
 		</c:forEach>
 			<c:if test="${not loop_flag }">
 			<input type="text" class="insertmessage${follow.m_num} tootoo tootoo${follow.m_num}" onkeypress="if (event.keyCode==13){insertmsg(${follow.m_num});}" placeholder="메세지를 입력하세요${follow.m_num}">
 			<c:set var="loop_flag" value="true" />
 			</c:if>
-		</c:forEach>
+		</c:forEach> --%>
 				
 		
 		
-	</td>
-</tr>
+	<!-- </td> -->
 
 
-</table>
+
+</div>
+<div   class="tootoo" >
+
+	친구를 클릭해 대화를 시작하세요
+
+
+</div>
 
 
 

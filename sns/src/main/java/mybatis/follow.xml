@@ -18,6 +18,12 @@
 			where m_num = #{m_num} and f_theirnum = #{f_theirNum}
 				
 		</select>
+		
+		<select id="getAllFollows" resultType="MyFollow">
+			select * from f_follow
+			where m_num = #{m_num}
+		
+		</select>
 	
 	
 	</mapper>

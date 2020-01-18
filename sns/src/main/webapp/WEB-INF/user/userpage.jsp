@@ -274,10 +274,10 @@ width: 150px;
 						</c:if>
 						
 						<c:if test="${followlist == 0}">
-							<a onclick="addfriend(${login.m_num })"><span class="addfriend">친구추가</span></a>
+							<a onclick="addfriend(${thisUser.m_num })"><span class="addfriend">친구추가</span></a>
 						</c:if>
 						<c:if test="${followlist != 0 && followlist != 5 }">
-							<a onclick="deletefriend(${login.m_num })"><span class="addfriend">언팔로우</span></a>
+							<a onclick="deletefriend(${thisUser.m_num })"><span class="addfriend">언팔로우</span></a>
 						</c:if>
 						 
 					</td>

@@ -1,5 +1,6 @@
 package message.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import message.model.Message;
@@ -30,15 +32,34 @@ public class MessageController {
 		
 		int m_num = login.getM_num();
 		List<User> friends = userDao.myfriends(m_num);
+		List<User> realFriends = new ArrayList<User>();
+		
+		for(int i = 0; i<friends.size();i++) {
+			if(m_num != friends.get(i).getM_num()) {
+				realFriends.add(friends.get(i));
+				
+			}
+			
+		}
 		
 		//메세지 전체 들고 오기 
 		List<Message> mlist = mDao.getChats(m_num);
 		
 		
 		model.addAttribute("mlist",mlist);
-		model.addAttribute("friends",friends);
+		model.addAttribute("friends",realFriends);
 		model.addAttribute("login",login);
 		return "messagePage";
+	}
+	
+	@ResponseBody
+	@RequestMapping("getMessage.mess")
+	public List<Message> getList(@RequestParam("s_tonum") String s_tonum,
+			@RequestParam("s_fromnum") String s_fromnum){
+		
+		List<Message> texts = mDao.getChatList(s_tonum,s_fromnum);
+		
+		return texts;
 	}
 	
 	
@@ -47,15 +68,16 @@ public class MessageController {
 	public List<Message> insert(Message message, HttpSession session) {
 		
 		User login = (User) session.getAttribute("userLoginfo");
-		String m_num = Integer.toString(login.getM_num());
-		message.setS_fromnum(m_num);
+		String s_fromnum = Integer.toString(login.getM_num());
+		message.setS_fromnum(s_fromnum);
 		System.out.println("was here"+message);
 		mDao.insertChat(message);
 		
 		
-		int mm_num = login.getM_num();
-		List<Message> mlist = mDao.getChats(mm_num);
+		String s_tonum = message.getS_tonum();
+		List<Message> mlist = mDao.getChatList(s_tonum,s_fromnum);
 		
+		System.out.println("s_fromnum:"+s_fromnum+ ","+s_tonum);
 		
 		
 		

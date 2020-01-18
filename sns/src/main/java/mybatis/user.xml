@@ -49,6 +49,9 @@
 		where m_num in (select f_theirnum 
                 from f_follow
                 where m_num = #{m_num})
+        or m_num in (select m_num 
+                from f_follow
+                where f_theirnum = #{m_num})
 	</select>
 	
 	

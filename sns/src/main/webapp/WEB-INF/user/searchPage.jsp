@@ -24,6 +24,56 @@ $(function(){
 
 
 </script>
+<script>
+
+function addfriend(a){
+	console.log(a);
+	var eData = {"f_theirNum":a};
+	
+	$.ajax({
+		url : "addfriend.er",
+		type : 'POST',
+		data : eData,
+		success: function(data){
+			console.log("add")
+			$('.insidetext'+a).children().remove();
+			$('.insidetext'+a).append('<a onclick="deletefriend('+a+')"><span class="addfriend"><i class="fas fa-user-minus"></i>언팔로우</span></a>');
+			
+		},
+		error : function(data) {
+			alert("no friend");
+			//self.close();
+		}
+		
+	});
+}
+
+function deletefriend(a){
+	console.log(a);
+	console.log('delete');
+	var eData = {"f_theirNum":a};
+	
+	$.ajax({
+		url : "deletefriend.er",
+		type : 'POST',
+		data : eData,
+		success: function(data){
+			console.log("removeeee")
+			$('.insidetext'+a).children().remove();
+			$('.insidetext'+a).append('<a onclick="addfriend('+a+')"><span class="addfriend"><i class="fas fa-user-plus"></i>친구추가</span></a>');
+			
+		},
+		error : function(data) {
+			alert("no friend");
+			//self.close();
+		}
+		
+	});
+	
+	
+	
+}
+</script>
 
 
 
@@ -155,8 +205,20 @@ body{
 			
 				<table style="border: 1px solid gray;">
 					<tr>
-						<td style="border-right: 1px solid gray;">
-							<p style="    margin: 0 10px;"><i class="fas fa-user-plus"></i>친구추가</p> 
+						<td style="border-right: 1px solid gray;" class="insidetext${member.m_num }">
+							<c:set var="loop_flag" value="false" />
+							<c:forEach var="follow" items="${followlist}"  > 
+								
+								<c:if test="${fn:contains(follow.f_theirNum, member.m_num) && loop_flag == false}">	
+									<a  onclick="deletefriend(${member.m_num })" style="margin: 0 10px;"><i class="fas fa-user-minus"></i>언팔로우</a> 
+									<c:set var="loop_flag" value="true" />
+								</c:if>
+								
+								<c:if test="${!fn:contains(follow.f_theirNum, member.m_num) && loop_flag == false }">		
+									<a onclick="addfriend(${member.m_num })" style="    margin: 0 10px;"><i class="fas fa-user-plus"></i>친구추가</a> 
+									<c:set var="loop_flag" value="true" />
+								</c:if>
+							</c:forEach>
 						
 						</td>
 						<td>

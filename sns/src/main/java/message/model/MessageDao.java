@@ -24,5 +24,14 @@ private String namespace = "message.model.Message";
 		sst.insert(namespace + ".insertchat", message);
 		
 	}
+
+	public List<Message> getChatList(String s_tonum, String s_fromnum) {
+		// TODO Auto-generated method stub
+		Message tt = new Message();
+		tt.setS_tonum(s_tonum);
+		tt.setS_fromnum(s_fromnum);
+		List<Message> lists = sst.selectList(namespace + ".getChatlists", tt);
+		return lists;
+	}
 	
 }

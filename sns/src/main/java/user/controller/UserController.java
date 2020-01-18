@@ -221,14 +221,29 @@ public class UserController {
 		}
 		
 		
+		User user = (User)session.getAttribute("userLoginfo");
 		System.out.println("keyword:"+keyword);
-		keymember = userDao.searchUser(keyword);
+		List<User> key = userDao.searchUser(keyword);
+		
+		for(int i =0; i<key.size();i++) {
+			if(key.get(i).getM_num() != user.getM_num()) {
+				
+				keymember.add(key.get(i));
+				
+			}
+			
+			
+			
+		}
+		
 		keylist = writeDao.searchUserPost(keyword);
 		
+		List<Follow> followlist =  followDao.getAllFollows(user.getM_num());
 		
 		User login = (User) session.getAttribute("userLoginfo");
 		model.addAttribute("login",login);
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("followlist", followlist);
 		model.addAttribute("keymember", keymember);
 		model.addAttribute("keylist", keylist);
 		return "searchPage";
