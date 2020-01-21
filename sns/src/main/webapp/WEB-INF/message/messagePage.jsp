@@ -4,12 +4,19 @@
         <%@include file="./../common/header.jsp"%>
 
 <script>
-$(function(){
+window.onload=function(){
+	//alert($(location).attr('search'));
+	var url = $(location).attr('search');
+	var gg = url.split('=');
+	console.log(gg[1])
+	if(gg[1] != null){
+		var mynum = $('.loginnum').val()
+		console.log(mynum +','+gg[1])
+		startChat(mynum, gg[1])
+		
+	}
 	
-	
-	
-});
-
+}
 
 </script>
 <script>
@@ -184,6 +191,7 @@ display:inline-block;
 
 <div id="context"></div>
 
+<input type="hidden" class="loginnum" value="${login.m_num}">
 <div class="big-container">
 
 <div  class="bigtable-wrapper">
@@ -206,7 +214,6 @@ display:inline-block;
 </table>
 
 <div style="width:30%;display: inline-block;">
-
 		<c:forEach items="${friends }" var="follow">
 			<table class="followlist"  onclick="startChat(${login.m_num},${follow.m_num})">
 				<tr>

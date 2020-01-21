@@ -72,6 +72,13 @@ public class UserDao {
 	}
 
 
+	public List<User> getAllFollows(int m_num) {
+		// TODO Auto-generated method stub
+		List<User> list = sst.selectList(namespace + ".getAllFriends", m_num);
+		return list;
+	}
+
+
 	
 
 

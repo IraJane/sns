@@ -22,6 +22,7 @@
 		<select id="getAllFollows" resultType="MyFollow">
 			select * from f_follow
 			where m_num = #{m_num}
+			
 		
 		</select>
 	

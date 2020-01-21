@@ -288,6 +288,30 @@ public class UserController {
 		return "redirect:/search.er?m_num="+f_theirNum;
 	}
 	
+	@RequestMapping("friends.er")
+	public String myfriends(HttpSession session, Model model) {
+		
+		User login = (User) session.getAttribute("userLoginfo");
+		model.addAttribute("login",login);
+		
+		// get friends 
+		List<User> frii = userDao.getAllFollows(login.getM_num());
+		List<User> friends = new ArrayList<User>();
+		for(int i = 0; i<frii.size(); i++) {
+			System.out.println(frii.get(i).getM_num()+","+ login.getM_num());
+			if(frii.get(i).getM_num() != login.getM_num()) {
+				friends.add(frii.get(i));
+				
+			}
+			
+		}
+		
+		System.out.println(friends);
+		
+		model.addAttribute("friends",friends);
+		return "myfriendpage";
+	}
+	
 	
 	
 	

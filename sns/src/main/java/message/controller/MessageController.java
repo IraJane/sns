@@ -27,7 +27,8 @@ public class MessageController {
 	MessageDao mDao;
 	
 	@RequestMapping("tomessenger.mess")
-	public String page(HttpSession session, Model model) {
+	public String page(HttpSession session, Model model,
+			@RequestParam(value="f_num", required=false) String f_num) {
 		User login = (User) session.getAttribute("userLoginfo");
 		
 		int m_num = login.getM_num();
@@ -42,6 +43,7 @@ public class MessageController {
 			
 		}
 		
+		
 		//메세지 전체 들고 오기 
 		List<Message> mlist = mDao.getChats(m_num);
 		
@@ -49,6 +51,13 @@ public class MessageController {
 		model.addAttribute("mlist",mlist);
 		model.addAttribute("friends",realFriends);
 		model.addAttribute("login",login);
+		if(f_num != null) {
+			
+			model.addAttribute("f_num",f_num);
+			
+			
+			return "messagePage.jsp?f_num="+f_num;
+		}
 		return "messagePage";
 	}
 	
