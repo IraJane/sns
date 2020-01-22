@@ -10,6 +10,7 @@
    			<typeAlias type="write.model.Categ" alias="MyCateg"/>
    			<typeAlias type="write.model.Like" alias="MyLike"/>
    			<typeAlias type="message.model.Message" alias="MyMessage"/>
+   			<typeAlias type="write.model.Story" alias="MyStory"/>
    		</typeAliases>
    		
    		<mappers>
@@ -19,6 +20,7 @@
    			<mapper resource="mybatis/categ.xml"/>
    			<mapper resource="mybatis/like.xml"/>
    			<mapper resource="mybatis/message.xml"/>
+   			<mapper resource="mybatis/story.xml"/>
    			
    			
    		

@@ -22,6 +22,8 @@ import user.model.User;
 import user.model.UserDao;
 import write.model.Like;
 import write.model.LikeDao;
+import write.model.Story;
+import write.model.StoryDao;
 import write.model.Write;
 import write.model.WriteDao;
 
@@ -35,6 +37,9 @@ public class UserController {
 	
 	@Autowired
 	WriteDao writeDao;
+	
+	@Autowired
+	StoryDao storyDao;
 	
 	@Autowired
 	LikeDao likeDao;
@@ -119,14 +124,16 @@ public class UserController {
 				}
 				
 				
+				
 				//스토리 
-				
-				
+				List<Story> texts = storyDao.getStories(login.getM_num());
+				System.out.println(texts);
 				
 				
 				
 				session.setAttribute("userLoginfo", login);
 				model.addAttribute("login",login);
+				model.addAttribute("texts",texts);
 				return "usermMain";
 			
 	

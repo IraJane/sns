@@ -246,15 +246,17 @@ width: 25px;
 
 </table>
 
+
+<c:forEach items="${texts }" var="write">
 <table class="story-table">
 	<tr>
 		<td>
-			<h4>여기 아래는 스토리 </h4>
+			<h4><img class="smallimg" src="<%=request.getContextPath() %>/resources/${write.m_num}/${write.m_image}">${write.m_name } </h4>
 		</td>	
 	</tr>
 	<tr>
 		<td>
-				<div>0내용ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ</div>
+				<div>${write.t_content }</div>
 		</td>	
 	</tr>
 	<tr>
@@ -270,7 +272,7 @@ width: 25px;
 
 
 </table>
-
+</c:forEach>
 	
 
 

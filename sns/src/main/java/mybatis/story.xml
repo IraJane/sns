@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="write.model.Story">
+<select id="getStories" resultType="MyStory">
+		select w.t_num, w.m_num, w.t_content,w.t_todate, w.c_num, w.t_visible,w.t_like,w.t_image, u.m_num, u.m_name, u.m_email, u.m_image, u.m_out    from  t_write w,m_user u
+		where u.m_num =  w.m_num
+		and u.m_num in (select f_theirnum from f_follow where m_num =  #{m_num} )
+		order by w.t_todate desc
+	</select>
+	
+
+</mapper>

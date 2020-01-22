@@ -281,7 +281,7 @@ width: 150px;
 						</c:if>
 						 
 					</td>
-					<td style="border-left: 1px solid #d0d0d0;border-right: 1px solid #d0d0d0;"><a href="#">메시지 보내기</a></td>
+					<td style="border-left: 1px solid #d0d0d0;border-right: 1px solid #d0d0d0;"><a href="tomessenger.mess" class="headcolor">메시지 보내기</a></td>
 					<td style="    border-right: 1px solid #e2e2e2;"><a href="#">사진</a></td> <!-- heartThis.ing -->
 					<td>...</td> <!-- heartThis.ing -->
 				</tr>
