@@ -4,6 +4,35 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 <script>
+function showImage(){
+	$('.story-wrapper').addClass('hide')
+	$('.story-wrapper').removeClass('show')
+	$('.image-wrapper').addClass('show')
+	$('.image-wrapper').removeClass('hide')
+	
+	
+	
+	
+}
+function showPosts(){
+	$('.story-wrapper').addClass('show')
+	$('.story-wrapper').removeClass('hide')
+	$('.image-wrapper').addClass('hide')
+	$('.image-wrapper').removeClass('show')
+	
+	
+	
+	
+}
+
+</script>
+
+
+
+
+
+
+<script>
 function heartThis(a,b){
 	
 	var eData = {"t_num":a,"m_num":b};
@@ -125,6 +154,15 @@ function deletefriend(a){
 
     
 <style>
+
+.show{
+	display:inline-block;
+}
+.hide{
+	display:none;
+}
+
+
 body{
 	margin:0;
 	background: #d4d4d4b8;
@@ -242,6 +280,12 @@ width: 150px;
     height: auto;
 }
 
+.image-wrapper{
+	    background: white;
+    border: 1px solid #a1a1a1;
+    border-radius: 5px;
+}
+
 </style>    
     
     
@@ -281,9 +325,10 @@ width: 150px;
 						</c:if>
 						 
 					</td>
-					<td style="border-left: 1px solid #d0d0d0;border-right: 1px solid #d0d0d0;"><a href="tomessenger.mess" class="headcolor">메시지 보내기</a></td>
-					<td style="    border-right: 1px solid #e2e2e2;"><a href="#">사진</a></td> <!-- heartThis.ing -->
-					<td>...</td> <!-- heartThis.ing -->
+					<td style="border-left: 1px solid #d0d0d0;border-right: 1px solid #d0d0d0;color: #4c6dca;"><a href="tomessenger.mess" class="headcolor" style="color: #4c6dca;">메시지 보내기</a></td>
+					<td style="    border-right: 1px solid #e2e2e2;"><a onclick="showPosts()">게시글</a></td> <!-- heartThis.ing -->
+					<td style="   "><a onclick="showImage()">사진</a></td> <!-- heartThis.ing -->
+					
 				</tr>
 			</table>
 		</div>
@@ -398,7 +443,34 @@ width: 150px;
 	
 	
 <div class="image-wrapper">
-imgimg
+	<div class="img"> 
+		<p style="    font-size: 25px;margin: 10px;"><i class="fas fa-image"></i>&nbsp;사진</p>
+		
+		<div style="width:100%;     text-align: center;">
+			
+
+		
+		
+		
+		
+		
+		
+	
+		<c:forEach items="${list }" var="text">
+		<c:forEach items="${text.t_image }" var="images" >
+			<div style="border: 1px solid red;width: 32%;    height: 200px;display: inline-block;">
+					<img style="    width: 100%;height: 100%;" src="<%=request.getContextPath() %>/resources/${thisUser.m_num}/posts/${text.t_num}/${images}">
+			
+			</div>
+		</c:forEach>
+		</c:forEach>
+	
+		</div>
+	
+	
+	
+	
+	</div>
 
 
 

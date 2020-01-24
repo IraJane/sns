@@ -10,38 +10,112 @@ function direct(){
 
 </script>
 <style>
+body{
+margin: 0;
+}
+.body-wrapper{
+margin: 0 100px;
+	background: #f2f2f2;
+}
+
 .rightbar{
-float:right;
+	float:right;
+	width: 20%;
+    /* margin: 0 10px; */
+    height: 1000px;
+    background: white;
+    text-align:center;
+}
+.left-text{
+	    position: absolute;
+    margin: -35% 19%;
+    background: #ffffffd4;
+    padding: 30px;
+    opacity: 0.7;
+    border-radius: 5px;
+    font-size: 40px;
+    text-align: center;
+
+}
+
+.inputstyle {
+	    background: #ebebeb;
+    border: 1px solid #aeaeae;
+    padding: 5px;
+    border-radius: 5px;
+    width:100%;
+}
+
+.login-input {
+	background: #5e85dc;
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #537edd;
+    border-radius: 5px;
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.signup-input {
+	    border: none;
+    background: none;
+    font-size: 13px;
+    /* text-align: center; */
+    margin: auto;
+    width: 100%;
+    color: #6c6c6c;
+}
+
+.headcolor{
+color:black;
+text-decoration:none;
+font-size:40px;
+    margin: 0 0 0 100px;
+}
+.header-box{
+	    height: 45px;
+    background: #4c6dca;
+	
 }
 
 </style>
-<div class="rightbar">
 
-<h4>안녕하세요 </h4>
-<form action="login.er" method="post">
-<table>
-	<tr>
-		<td>아이디</td>
-		<td><input type="text" name="m_email" ></td>
-	</tr>
-	<tr>
-		<td>비밀번호</td>
-		<td><input type="password" name="m_password" ></td>
-	</tr>
-	<tr>
+<div class="header-box"><i class="headcolor fas fa-chess-queen"></i></div>
+
+
+
+
+
+<div class="body-wrapper">
+
+<div class="rightbar" >
+	<div style="padding:10px;">
+
+		<h4>로그인</h4>
+		<form action="login.er" method="post">
+		<table style="width: 100%;margin: auto;text-align: center;">
+			<tr>
+				<td><input class="inputstyle" type="text" name="m_email" placeholder="아이디" autocomplete="off"></td>
+			</tr>
+			<tr>
+				<td><input class="inputstyle" type="password" name="m_password" placeholder="비밀번호" autocomplete="off"></td>
+			</tr>
+			<tr>
+				
+				<td><input class="login-input" type="submit"  value="Login" ></td>
+			</tr>
 		
-		<td><input type="submit"  value="Login" ></td>
-	</tr>
-
-
-</table>
-</form>
-
-<hr>
-<button type="button" onclick="direct()">회원가입 하기</button>
+		
+		</table>
+		</form>
+		
+		<hr>
+		<button class="signup-input" type="button" onclick="direct()">회원가입 하기</button>
+	</div>
 </div>
 
-<div class="leftbar">
-<img  src="map.png" width="200px">
+<div class="leftbar" style="    width: 80%;">
+<img src="./resources/img/map.jpg" style="    opacity: 0.5;    width: 100%;height: 1000px;">
 
+</div>
 </div>

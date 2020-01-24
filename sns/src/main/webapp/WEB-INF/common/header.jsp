@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+
 <%
 	User login = (User) session.getAttribute("userLoginfo");
 	String url = request.getContextPath();
@@ -57,22 +58,31 @@ width: 25px;
     margin: -8px 0;
     
 }
+
+
 </style>
 
 <div class="header-box">
-	<div class="header-left">
-	<form action="search.er">
-		<a href="login.er"><i class="headcolor fas fa-chess-queen"></i></a>&nbsp;<input name="keyword" type="text" placeholder="검색">
-	</form>
+
+
+
+
 	
-	</div>
-	<div class="header-right">
-		<a href="info.er"><img class="smallimg" src="<%=request.getContextPath() %>/resources/${login.m_num}/${login.m_image}"><span class="headcolor">${login.m_name}</span></a>		
-		<a href="login.er" class="headcolor">홈</a>
-		<a href="friends.er" class="headcolor"><i class="fas fa-user-friends"></i></a>
-		<a href="tomessenger.mess" class="headcolor"><i class="fab fa-facebook-messenger"></i></a>
-		<a href="logout.er" class="headcolor"><i class="fas fa-sign-out-alt"></i></a>
-	</div>
+		<div class="header-left">
+		<form action="search.er">
+			<a href="login.er"><i class="headcolor fas fa-chess-queen"></i></a>&nbsp;<input name="keyword" type="text" placeholder="검색">
+		</form>
+		
+		</div>
+		<div class="header-right">
+			<a href="info.er"><img class="smallimg" src="<%=request.getContextPath() %>/resources/${login.m_num}/${login.m_image}"><span class="headcolor">${login.m_name}</span></a>		
+			<a href="login.er" class="headcolor">홈</a>
+			<a href="friends.er" class="headcolor"><i class="fas fa-user-friends"></i></a>
+			<a href="tomessenger.mess" class="headcolor"><i class="fab fa-facebook-messenger"></i></a>
+			<a href="logout.er" class="headcolor"><i class="fas fa-sign-out-alt"></i></a>
+		</div>
+		
+		
 
 
 </div>

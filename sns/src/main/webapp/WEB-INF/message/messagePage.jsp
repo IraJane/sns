@@ -30,12 +30,11 @@ function startChat(mynum, yournum){
 		type : 'POST',
 		data : eData,
 		success: function(data){
-			console.log('dhk');
 			console.log(data.length)
+			var msgg = '<table>';
+			$('.tootoo').empty();
 			
 			if(data.length > 0){
-				var msgg = '';
-				$('.tootoo').empty();
 				for(var i = 0; i<data.length; i++){
 					console.log(i);
 					msgg = msgg + '<tr><td>'+data[i].s_msg +'</td><td>'+data[i].s_date +'</td></tr>';
@@ -43,25 +42,38 @@ function startChat(mynum, yournum){
 				}
 				$('.insertmsg').addClass('hide');
 				$('.insertmessage'+yournum).addClass('show');
-				$('.tootoo').append(msgg);
 				var getinsert = $('.insertmessage'+yournum);
 				if(getinsert.length == 0){
-					$('.tootoo').append('<div><input type="text" class="insertmsg insertmessage'+yournum+' tootoo tootoo'+yournum+'" onkeypress="if (event.keyCode==13){insertmsg('+yournum+');}" placeholder="메세지를 입력하세요'+yournum+'"></div>')
+					msgg = msgg + '<tr><td><input type="text" class="insertmsg sticky insertmessage'+yournum+' tootoo tootoo'+yournum+'" onkeypress="if (event.keyCode==13){insertmsg('+yournum+');}" placeholder="메세지를 입력하세요'+yournum+'"></td></tr>';
 					
 				}
+				
 				
 			}
 			if(data.length == 0){
 				$('.insertmsg').addClass('hide');
 				$('.insertmessage'+yournum).addClass('show');
-				$('.tootoo').empty();
+				//$('.tootoo').empty();
 				var getinsert = $('.insertmessage'+yournum);
 				if(getinsert.length == 0){
-					$('.tootoo').append('<div><input type="text" class="insertmsg insertmessage'+yournum+' tootoo tootoo'+yournum+'" onkeypress="if (event.keyCode==13){insertmsg('+yournum+');}" placeholder="메세지를 입력하세요'+yournum+'"></div>')
+					
+					msgg = msgg + '<tr><td><input type="text" class="insertmsg sticky insertmessage'+yournum+' tootoo tootoo'+yournum+'" onkeypress="if (event.keyCode==13){insertmsg('+yournum+');}" placeholder="메세지를 입력하세요'+yournum+'"></td></tr>';
 					
 				}	
 			}
 			
+			
+			var tt = $(".tootootoo").prop('scrollHeight');
+			
+			console.log(tt);
+			$(".tootootoo").scrollTop(tt);
+			// 스크롤 제일 아래에 고정 수정 하다 말았으 
+
+
+			
+			msgg = msgg + '</table>';
+			console.log(msgg);
+			$('.tootoo').append(msgg);
 			
 			
 		},
@@ -98,7 +110,7 @@ function insertmsg(your){
 			success: function(data){
 				console.log(data);
 				
-				var msgg = '';
+				var msgg = '<table>';
 				$('.tootoo').empty();
 				for(var i = 0; i<data.length; i++){
 					console.log(i);
@@ -107,10 +119,11 @@ function insertmsg(your){
 				}
 				$('.insertmsg').addClass('hide');
 				$('.insertmessage'+your).addClass('show');
+				msgg = msgg + '</table>';
 				$('.tootoo').append(msgg);
 				var getinsert = $('.insertmessage'+your);
 				if(getinsert.length == 0){
-					$('.tootoo').append('<div><input type="text" class="insertmsg insertmessage'+your+' tootoo tootoo'+your+'" onkeypress="if (event.keyCode==13){insertmsg('+your+');}" placeholder="메세지를 입력하세요'+your+'"></div>')
+					$('.tootoo').append('<tr><td><input type="text" class="insertmsg sticky insertmessage'+your+' tootoo tootoo'+your+'" onkeypress="if (event.keyCode==13){insertmsg('+your+');}" placeholder="메세지를 입력하세요'+your+'"></td></tr>')
 					
 				}
 				
@@ -152,9 +165,12 @@ body{
 }
 .bigtable-wrapper{
 	width: 100%;
-    border: 1px solid #b6b6b6;
+/*     border: 1px solid #b6b6b6; */
     margin: 10px 0;
+    height:700px;
+
 }
+
 .bigimage{
 	    width: 100px;
     height: 100px;
@@ -162,7 +178,7 @@ body{
 }
 
 .followlist{
-	    width: 100%;
+    width: 90%;
     /* border: 1px solid; */
     padding: 10px;
     margin: 10px 0;
@@ -184,7 +200,31 @@ display:inline-block;
     float: right;
     height: 30px;
     display: inline-block;
+    overflow:hidden;
 }
+
+.tootootoo {
+    height: 555px;
+    overflow-y: scroll;
+}
+.tootootoo::-webkit-scrollbar{
+	display: none;
+}
+
+.tootootoo td {
+	padding: 10px 0;
+}
+
+.sticky {
+  position: fixed;
+  bottom: 0px;
+	    width: 45%;
+    margin: 10px -10px;
+    padding: 20px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: 1px solid #4c6dca;
+	
 }
 
 </style>
@@ -213,7 +253,7 @@ display:inline-block;
 </tr>
 </table>
 
-<div style="width:30%;display: inline-block;">
+<div style="width:30%;display: inline-block;border-right: 1px solid #c9c9c9;height: 600px;">
 		<c:forEach items="${friends }" var="follow">
 			<table class="followlist"  onclick="startChat(${login.m_num},${follow.m_num})">
 				<tr>
@@ -262,7 +302,7 @@ display:inline-block;
 
 
 </div>
-<div   class="tootoo" >
+<div   class="tootoo tootootoo" >
 
 	친구를 클릭해 대화를 시작하세요
 
